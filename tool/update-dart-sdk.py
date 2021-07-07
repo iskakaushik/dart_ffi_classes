@@ -28,7 +28,7 @@ TOOL_PATH = os.path.dirname(os.path.realpath(__file__))
 ROOT_PATH = os.path.dirname(TOOL_PATH)
 
 DARTSDK_REPOSITORY = 'https://dart.googlesource.com/sdk/'
-DARTSDK_REVISION = '09481aa6ca60a12a5885db108aa5152cecb73fb1'
+DARTSDK_REVISION = '6f9810c8f7daba75fa28a4ceabc99dbead8fd17c'
 
 
 def cleanup():
