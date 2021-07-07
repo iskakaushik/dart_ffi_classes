@@ -19,13 +19,6 @@ String _getDylibPath() {
 final dylib = DynamicLibrary.open(_getDylibPath());
 final simpleCPP = SimpleCPP(dylib);
 
-void _attachFinalizer(Pointer<simple_list_t> ptr, int size) {
-  final ret = simpleCPP.simple_list_attach_finalizer(ptr, ptr.cast(), size);
-  if (ret != 1) {
-    throw Exception("Unable to attach finalizer to simple list ($size).");
-  }
-}
-
 class SimpleListWrapper {
   factory SimpleListWrapper.create(int size, int value) {
     final ptr = simpleCPP.simple_list_create(size, value);
@@ -33,8 +26,16 @@ class SimpleListWrapper {
       throw Exception('Unable to intialize simple list');
     }
     print('[dart] Initialized simple list: ${ptr.address.toRadixString(16)}');
-    _attachFinalizer(ptr, size);
-    return SimpleListWrapper._(ptr);
+    SimpleListWrapper wrapper = SimpleListWrapper._(ptr);
+    wrapper._attachFinalizer(size);
+    return wrapper;
+  }
+
+  void _attachFinalizer(int size) {
+    final ret = simpleCPP.simple_list_attach_finalizer(this, ptr.cast(), size);
+    if (ret != 1) {
+      throw Exception("Unable to attach finalizer to simple list ($size).");
+    }
   }
 
   int sum() {

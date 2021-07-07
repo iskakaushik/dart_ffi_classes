@@ -23,6 +23,9 @@ simple_list_t* simple_list_create(int size, int value) {
   ret->size = size;
   ret->values = (int*)malloc(size * sizeof(int));
   printf("Created simple list: %p of size: %d\n", ret, size);
+  for (int i = 0; i < size; i++) {
+    ret->values[i] = value;
+  }
   return ret;
 }
 
@@ -39,8 +42,12 @@ int simple_list_sum(simple_list_t* list) {
 }
 
 static void simple_list_free(void* isolate_callback_data, void* peer) {
+  assert(peer != nullptr);
+
   printf("Finalising: peer %p\n", peer);
-  free(peer);
+  simple_list_t* l = reinterpret_cast<simple_list_t*>(peer);
+  free(l->values);
+  free(l);
 }
 
 int simple_list_attach_finalizer(Dart_Handle handle, void* pointer,
