@@ -33,6 +33,58 @@ class NativeLibrary {
       _lookup<ffi.NativeFunction<_c_simple_add>>('simple_add');
   late final _dart_simple_add _simple_add =
       _simple_add_ptr.asFunction<_dart_simple_add>();
+
+  /// // CLASSES
+  int simple_class_dart_dl_initialize(
+    ffi.Pointer<ffi.Void> initialize_api_dl_data,
+  ) {
+    return _simple_class_dart_dl_initialize(
+      initialize_api_dl_data,
+    );
+  }
+
+  late final _simple_class_dart_dl_initialize_ptr =
+      _lookup<ffi.NativeFunction<_c_simple_class_dart_dl_initialize>>(
+          'simple_class_dart_dl_initialize');
+  late final _dart_simple_class_dart_dl_initialize
+      _simple_class_dart_dl_initialize = _simple_class_dart_dl_initialize_ptr
+          .asFunction<_dart_simple_class_dart_dl_initialize>();
+
+  void simple_list_create(
+    int size,
+    int value,
+  ) {
+    return _simple_list_create(
+      size,
+      value,
+    );
+  }
+
+  late final _simple_list_create_ptr =
+      _lookup<ffi.NativeFunction<_c_simple_list_create>>('simple_list_create');
+  late final _dart_simple_list_create _simple_list_create =
+      _simple_list_create_ptr.asFunction<_dart_simple_list_create>();
+
+  void simple_list_attach_finalizer(
+    Object object,
+    ffi.Pointer<ffi.Void> pointer,
+    ffi.Pointer<ffi.NativeFunction<simple_list_finalizer_t>> finalizer,
+    int external_allocation_size,
+  ) {
+    return _simple_list_attach_finalizer(
+      object,
+      pointer,
+      finalizer,
+      external_allocation_size,
+    );
+  }
+
+  late final _simple_list_attach_finalizer_ptr =
+      _lookup<ffi.NativeFunction<_c_simple_list_attach_finalizer>>(
+          'simple_list_attach_finalizer');
+  late final _dart_simple_list_attach_finalizer _simple_list_attach_finalizer =
+      _simple_list_attach_finalizer_ptr
+          .asFunction<_dart_simple_list_attach_finalizer>();
 }
 
 typedef _c_simple_add = ffi.Int32 Function(
@@ -43,4 +95,40 @@ typedef _c_simple_add = ffi.Int32 Function(
 typedef _dart_simple_add = int Function(
   int x,
   int y,
+);
+
+typedef _c_simple_class_dart_dl_initialize = ffi.Int32 Function(
+  ffi.Pointer<ffi.Void> initialize_api_dl_data,
+);
+
+typedef _dart_simple_class_dart_dl_initialize = int Function(
+  ffi.Pointer<ffi.Void> initialize_api_dl_data,
+);
+
+typedef _c_simple_list_create = ffi.Void Function(
+  ffi.Int32 size,
+  ffi.Int32 value,
+);
+
+typedef _dart_simple_list_create = void Function(
+  int size,
+  int value,
+);
+
+typedef simple_list_finalizer_t = ffi.Void Function(
+  ffi.Pointer<ffi.Void>,
+);
+
+typedef _c_simple_list_attach_finalizer = ffi.Void Function(
+  ffi.Handle object,
+  ffi.Pointer<ffi.Void> pointer,
+  ffi.Pointer<ffi.NativeFunction<simple_list_finalizer_t>> finalizer,
+  ffi.IntPtr external_allocation_size,
+);
+
+typedef _dart_simple_list_attach_finalizer = void Function(
+  Object object,
+  ffi.Pointer<ffi.Void> pointer,
+  ffi.Pointer<ffi.NativeFunction<simple_list_finalizer_t>> finalizer,
+  int external_allocation_size,
 );

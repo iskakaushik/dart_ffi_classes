@@ -18,3 +18,22 @@ ffigen:
   headers:
     entry-points:
       - 'simple_cpp/simple.h'
+  functions:
+    include:
+      - 'simple_.*'
+  macros:
+    include:
+      - nothing
+  enums:
+    include:
+      - nothing
+  unnamed-enums:
+    include:
+      - nothing
+  globals:
+    include:
+      - nothing
+  structs:
+    include:
+      - nothing
+    dependency-only: opaque
