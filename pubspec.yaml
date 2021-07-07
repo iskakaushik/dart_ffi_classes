@@ -35,5 +35,5 @@ ffigen:
       - nothing
   structs:
     include:
-      - nothing
+      - simple_.*
     dependency-only: opaque

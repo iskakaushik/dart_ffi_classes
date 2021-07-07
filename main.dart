@@ -16,12 +16,49 @@ String _getDylibPath() {
   return path;
 }
 
-void main() {
-  print('Hello, World!');
+final dylib = DynamicLibrary.open(_getDylibPath());
+final simpleCPP = SimpleCPP(dylib);
+
+void simple_add() {
   final int a = 50;
   final int b = 43;
 
-  final dylib = DynamicLibrary.open(_getDylibPath());
-  final int sum = SimpleCPP(dylib).simple_add(a, b);
+  final int sum = simpleCPP.simple_add(a, b);
   print('Sum of $a and $b is $sum.');
+}
+
+void _attachFinalizer(Pointer<simple_list_t> ptr, int size) {
+  final ret = simpleCPP.simple_list_attach_finalizer(ptr, ptr.cast(), size);
+  if (ret != 1) {
+    throw Exception("Unable to attach finalizer to simple list ($size).");
+  }
+}
+
+class SimpleListWrapper {
+  factory SimpleListWrapper.create(int size, int value) {
+    final ptr = simpleCPP.simple_list_create(size, value);
+    if (ptr.address == 0) {
+      throw Exception('Unable to intialize simple list');
+    }
+    _attachFinalizer(ptr, size);
+    return SimpleListWrapper._(ptr);
+  }
+
+  int sum() {
+    return simpleCPP.simple_list_sum(ptr);
+  }
+
+  SimpleListWrapper._(this.ptr);
+
+  final Pointer<simple_list_t> ptr;
+}
+
+void main() {
+  final initializer = simpleCPP.simple_class_dart_dl_initialize;
+  if (initializer(NativeApi.initializeApiDLData) != 1) {
+    throw UnsupportedError('Unable to initialize simple_cpp');
+  }
+
+  SimpleListWrapper simpleList = SimpleListWrapper.create(100, 5);
+  print('Sum = ${simpleList.sum()}');
 }

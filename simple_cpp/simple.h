@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#include "dart_api_dl.h"
+#include "include/dart_api_dl.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,12 +22,16 @@ int simple_add(int x, int y);
 // Returns 1 on success.
 int simple_class_dart_dl_initialize(void* initialize_api_dl_data);
 
-// Creates a list of `size`, every element have `value`
-void simple_list_create(int size, int value);
+typedef struct simple_list_t {
+  int* values;
+  int size;
+} simple_list_t;
 
-// Function pointer for de-allocation of a pointer, when attaching a finalizer
-// using simple_list_attach_finalizer.
-typedef void (*simple_list_finalizer_t)(void*);
+// Creates a list of `size`, every element have `value`
+simple_list_t* simple_list_create(int size, int value);
+
+// Adds all the numbers in a simple list and returns the sum.
+int simple_list_sum(simple_list_t* list);
 
 // Attach a finalizer for pointer to object, such that `finalizer(pointer)` will
 // be called when `object` is collected by the Dart garbage collector.
@@ -36,9 +40,8 @@ typedef void (*simple_list_finalizer_t)(void*);
 // about the size of the external allocation.
 //
 // Returns 1 on success.
-void simple_list_attach_finalizer(Dart_Handle object, void* pointer,
-                                  simple_list_finalizer_t finalizer,
-                                  intptr_t external_allocation_size);
+int simple_list_attach_finalizer(Dart_Handle object, void* pointer,
+                                 intptr_t external_allocation_size);
 
 #ifdef __cplusplus
 }  // extern "C"

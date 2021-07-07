@@ -50,7 +50,7 @@ class SimpleCPP {
       _simple_class_dart_dl_initialize = _simple_class_dart_dl_initialize_ptr
           .asFunction<_dart_simple_class_dart_dl_initialize>();
 
-  void simple_list_create(
+  ffi.Pointer<simple_list_t> simple_list_create(
     int size,
     int value,
   ) {
@@ -65,16 +65,27 @@ class SimpleCPP {
   late final _dart_simple_list_create _simple_list_create =
       _simple_list_create_ptr.asFunction<_dart_simple_list_create>();
 
-  void simple_list_attach_finalizer(
+  int simple_list_sum(
+    ffi.Pointer<simple_list_t> list,
+  ) {
+    return _simple_list_sum(
+      list,
+    );
+  }
+
+  late final _simple_list_sum_ptr =
+      _lookup<ffi.NativeFunction<_c_simple_list_sum>>('simple_list_sum');
+  late final _dart_simple_list_sum _simple_list_sum =
+      _simple_list_sum_ptr.asFunction<_dart_simple_list_sum>();
+
+  int simple_list_attach_finalizer(
     Object object,
     ffi.Pointer<ffi.Void> pointer,
-    ffi.Pointer<ffi.NativeFunction<simple_list_finalizer_t>> finalizer,
     int external_allocation_size,
   ) {
     return _simple_list_attach_finalizer(
       object,
       pointer,
-      finalizer,
       external_allocation_size,
     );
   }
@@ -85,6 +96,13 @@ class SimpleCPP {
   late final _dart_simple_list_attach_finalizer _simple_list_attach_finalizer =
       _simple_list_attach_finalizer_ptr
           .asFunction<_dart_simple_list_attach_finalizer>();
+}
+
+class simple_list_t extends ffi.Struct {
+  external ffi.Pointer<ffi.Int32> values;
+
+  @ffi.Int32()
+  external int size;
 }
 
 typedef _c_simple_add = ffi.Int32 Function(
@@ -105,30 +123,32 @@ typedef _dart_simple_class_dart_dl_initialize = int Function(
   ffi.Pointer<ffi.Void> initialize_api_dl_data,
 );
 
-typedef _c_simple_list_create = ffi.Void Function(
+typedef _c_simple_list_create = ffi.Pointer<simple_list_t> Function(
   ffi.Int32 size,
   ffi.Int32 value,
 );
 
-typedef _dart_simple_list_create = void Function(
+typedef _dart_simple_list_create = ffi.Pointer<simple_list_t> Function(
   int size,
   int value,
 );
 
-typedef simple_list_finalizer_t = ffi.Void Function(
-  ffi.Pointer<ffi.Void>,
+typedef _c_simple_list_sum = ffi.Int32 Function(
+  ffi.Pointer<simple_list_t> list,
 );
 
-typedef _c_simple_list_attach_finalizer = ffi.Void Function(
+typedef _dart_simple_list_sum = int Function(
+  ffi.Pointer<simple_list_t> list,
+);
+
+typedef _c_simple_list_attach_finalizer = ffi.Int32 Function(
   ffi.Handle object,
   ffi.Pointer<ffi.Void> pointer,
-  ffi.Pointer<ffi.NativeFunction<simple_list_finalizer_t>> finalizer,
   ffi.IntPtr external_allocation_size,
 );
 
-typedef _dart_simple_list_attach_finalizer = void Function(
+typedef _dart_simple_list_attach_finalizer = int Function(
   Object object,
   ffi.Pointer<ffi.Void> pointer,
-  ffi.Pointer<ffi.NativeFunction<simple_list_finalizer_t>> finalizer,
   int external_allocation_size,
 );
