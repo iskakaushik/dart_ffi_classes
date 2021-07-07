@@ -12,7 +12,7 @@ dev_dependencies:
   lints: ^1.0.1
 
 ffigen:
-  name: NativeLibrary
+  name: SimpleCPP
   description: Bindings to `simple_cpp`.
   output: 'generated_bindings.dart'
   headers:

@@ -22,6 +22,6 @@ void main() {
   final int b = 43;
 
   final dylib = DynamicLibrary.open(_getDylibPath());
-  final int sum = NativeLibrary(dylib).simple_add(a, b);
+  final int sum = SimpleCPP(dylib).simple_add(a, b);
   print('Sum of $a and $b is $sum.');
 }
