@@ -19,21 +19,6 @@ class SimpleCPP {
           lookup)
       : _lookup = lookup;
 
-  int simple_add(
-    int x,
-    int y,
-  ) {
-    return _simple_add(
-      x,
-      y,
-    );
-  }
-
-  late final _simple_add_ptr =
-      _lookup<ffi.NativeFunction<_c_simple_add>>('simple_add');
-  late final _dart_simple_add _simple_add =
-      _simple_add_ptr.asFunction<_dart_simple_add>();
-
   /// // CLASSES
   int simple_class_dart_dl_initialize(
     ffi.Pointer<ffi.Void> initialize_api_dl_data,
@@ -104,16 +89,6 @@ class simple_list_t extends ffi.Struct {
   @ffi.Int32()
   external int size;
 }
-
-typedef _c_simple_add = ffi.Int32 Function(
-  ffi.Int32 x,
-  ffi.Int32 y,
-);
-
-typedef _dart_simple_add = int Function(
-  int x,
-  int y,
-);
 
 typedef _c_simple_class_dart_dl_initialize = ffi.Int32 Function(
   ffi.Pointer<ffi.Void> initialize_api_dl_data,

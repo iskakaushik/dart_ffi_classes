@@ -13,7 +13,6 @@ include(
 )
 
 INCLUDE_DIRECTORIES(.)
-INCLUDE_DIRECTORIES(../third_party/dart-sdk/src/runtime/)
 
 SET (simple-cpp-sources
   simple.h
@@ -22,3 +21,16 @@ SET (simple-cpp-sources
 )
 
 ADD_LIBRARY (simple-cpp-lib SHARED ${simple-cpp-sources})
+
+target_include_directories(
+  simple-cpp-lib
+  PRIVATE
+  ../third_party/dart-sdk/src/runtime/
+)
+
+set_target_properties(
+  simple-cpp-lib
+  PROPERTIES
+  C_VISIBILITY_PRESET hidden
+  VISIBILITY_INLINES_HIDDEN 1
+)

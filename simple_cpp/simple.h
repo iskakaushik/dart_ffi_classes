@@ -9,9 +9,6 @@
 extern "C" {
 #endif
 
-// Super simple add function.
-int simple_add(int x, int y);
-
 ///// CLASSES
 
 // Initialize Dart API with dynamic linking.
