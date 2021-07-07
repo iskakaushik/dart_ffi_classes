@@ -11,10 +11,10 @@ dev_dependencies:
   ffigen: ^3.0.0
   lints: ^1.0.1
 
-# ffigen:
-#   name: NativeLibrary
-#   description: Bindings to `headers/example.h`.
-#   output: 'generated_bindings.dart'
-#   headers:
-#     entry-points:
-#       - 'headers/example.h'
+ffigen:
+  name: NativeLibrary
+  description: Bindings to `simple_cpp`.
+  output: 'generated_bindings.dart'
+  headers:
+    entry-points:
+      - 'simple_cpp/simple.h'
